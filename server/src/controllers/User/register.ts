@@ -1,23 +1,37 @@
 import { Response, Request } from 'express';
+import jwt from 'jsonwebtoken';
+
 import { User } from '../../models/User';
+import { BadRequestError } from '../../errors/bad-request-error';
+import { Settings } from '../../config';
 
 export const registerUser = async (req: Request, res: Response) => {
-  console.log(req.body);
-
   const existedUser = await User.findOne({ username: req.body.username });
 
   if (existedUser) {
-    throw new Error('User exist!');
+    throw new BadRequestError('Existed!');
   }
 
-  const newUser = new User({
+  const newUser = User.build({
     username: req.body.username,
     password: req.body.password,
     email: req.body.email,
     avatar: req.body.avatar,
   });
 
-  await newUser.save();
+  const user = await newUser.save();
+
+  const userJwt = jwt.sign(
+    {
+      id: user.id,
+      username: user.username,
+    },
+    Settings.JWT_KEY,
+  );
+
+  req.session = {
+    jwt: userJwt,
+  };
 
   res.send(newUser);
 };

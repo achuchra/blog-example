@@ -1,6 +1,19 @@
 import mongoose from 'mongoose';
 import { Password } from '../helpers/Password';
 
+interface UserAttr {
+  username: string;
+  password: string;
+  email: string;
+  avatar: string;
+}
+
+interface UserDoc extends UserAttr, mongoose.Document {}
+
+interface UserModel extends mongoose.Model<UserDoc> {
+  build(attrs: UserAttr): UserDoc;
+}
+
 const userSchema = new mongoose.Schema(
   {
     username: {
@@ -31,6 +44,10 @@ const userSchema = new mongoose.Schema(
   },
 );
 
+userSchema.statics.build = (attrs: UserAttr) => {
+  return new User(attrs);
+};
+
 userSchema.pre('save', async function (done) {
   if (this.isModified('password')) {
     const hashed = await Password.toHash(this.get('password'));
@@ -38,4 +55,4 @@ userSchema.pre('save', async function (done) {
   }
 });
 
-export const User = mongoose.model('User', userSchema);
+export const User = mongoose.model<UserDoc, UserModel>('User', userSchema);
