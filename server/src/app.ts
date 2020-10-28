@@ -6,6 +6,8 @@ import cookieSession from 'cookie-session';
 import { errorHandler } from './middlewares/error-handler';
 import { UserRouter } from './routes/users';
 import { NotFoundError } from './errors/not-found-error';
+import { currentUser } from './middlewares/current-user';
+import { ArticleRouter } from './routes/atricles';
 
 const app = express();
 
@@ -16,7 +18,10 @@ app.use(
     keys: ['asdasdasxcvxfd'],
   }),
 );
+app.use(currentUser);
+
 app.use(UserRouter);
+app.use(ArticleRouter);
 
 app.all('*', async () => {
   throw new NotFoundError();
