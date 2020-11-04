@@ -1,4 +1,5 @@
-import mongoose from 'mongoose';
+import mongoose, { PaginateModel } from 'mongoose';
+import paginate from 'mongoose-paginate-v2';
 
 export interface ArticleAttr {
   author: string;
@@ -13,7 +14,7 @@ interface ArticleDoc extends ArticleAttr, mongoose.Document {
   lastModifiedAt: Date;
 }
 
-interface ArticleModel extends mongoose.Model<ArticleDoc> {
+interface ArticleModel extends PaginateModel<ArticleDoc> {
   build(attrs: ArticleAttr): ArticleDoc;
 }
 
@@ -21,7 +22,7 @@ const articleSchema = new mongoose.Schema(
   {
     createdAt: Date,
     lastModifiedAt: Date,
-    author: String,
+    author: mongoose.Schema.Types.ObjectId,
     title: String,
     description: String,
     shortDescription: String,
@@ -37,6 +38,8 @@ const articleSchema = new mongoose.Schema(
     },
   },
 );
+
+articleSchema.plugin(paginate);
 
 articleSchema.statics.build = (attrs: ArticleAttr): ArticleDoc => {
   const createdAt = new Date();

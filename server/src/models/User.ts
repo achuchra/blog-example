@@ -8,7 +8,9 @@ interface UserAttr {
   avatar: string;
 }
 
-interface UserDoc extends UserAttr, mongoose.Document {}
+interface UserDoc extends UserAttr, mongoose.Document {
+  isAdmin: boolean;
+}
 
 interface UserModel extends mongoose.Model<UserDoc> {
   build(attrs: UserAttr): UserDoc;
