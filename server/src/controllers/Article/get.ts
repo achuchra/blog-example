@@ -3,7 +3,7 @@ import { Article } from '../../models/Article';
 import { NotFoundError } from '../../errors/not-found-error';
 
 export const getOne = async (req: Request, res: Response) => {
-  const existingArticle = await Article.findById(req.params.id);
+  const existingArticle = await Article.findById(req.params.id).populate('icon');
 
   if (!existingArticle) {
     throw new NotFoundError();

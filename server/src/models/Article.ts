@@ -6,7 +6,7 @@ export interface ArticleAttr {
   title: string;
   description?: string;
   shortDescription?: string;
-  icon?: string;
+  icon?: any;
 }
 
 interface ArticleDoc extends ArticleAttr, mongoose.Document {
@@ -26,7 +26,10 @@ const articleSchema = new mongoose.Schema(
     title: String,
     description: String,
     shortDescription: String,
-    icon: String,
+    icon: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Picture',
+    },
   },
   {
     toJSON: {

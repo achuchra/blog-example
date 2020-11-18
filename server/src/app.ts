@@ -2,6 +2,7 @@ import express from 'express';
 import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
+import path from 'path';
 
 import { errorHandler } from './middlewares/error-handler';
 import { UserRouter } from './routes/users';
@@ -22,6 +23,7 @@ app.use(currentUser);
 
 app.use(UserRouter);
 app.use(ArticleRouter);
+app.use(express.static(path.resolve(__dirname, '../public')));
 
 app.all('*', async () => {
   throw new NotFoundError();

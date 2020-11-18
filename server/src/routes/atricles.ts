@@ -1,12 +1,16 @@
 import { Router } from 'express';
-import { reqiredUser } from '../middlewares/required-user';
 import { createArticle } from '../controllers/Article/create';
 import { getOne } from '../controllers/Article/get';
 import { getAll } from '../controllers/Article/getAll';
 import { updatedArticle } from '../controllers/Article/update';
 import { deleteArticle } from '../controllers/Article//delete';
+import { newImage } from '../controllers/Article/newImage';
 import { validateArticle } from '../helpers/validateArticle';
+import { Uploader } from '../helpers/uploader';
 import { validRequest } from '../middlewares/validate-request';
+import { reqiredUser } from '../middlewares/required-user';
+
+const uploader = new Uploader();
 
 const router = Router();
 
@@ -18,6 +22,9 @@ router.get('/api/articles', getAll);
 
 // add new article
 router.post('/api/articles', reqiredUser, validateArticle(), validRequest, createArticle);
+
+// add new image
+router.post('/api/articles/picture', reqiredUser, uploader.storeSingle('article_icon'), newImage);
 
 // Update existing article
 router.put('/api/articles/:id', reqiredUser, validateArticle(), validRequest, updatedArticle);
