@@ -17,8 +17,9 @@ app.use(
   cookieSession({
     signed: false,
     keys: ['asdasdasxcvxfd'],
-  }),
+  })
 );
+
 app.use(currentUser);
 
 app.use(UserRouter);

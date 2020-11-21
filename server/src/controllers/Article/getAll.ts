@@ -38,6 +38,7 @@ export const getAll = async (req: Request, res: Response) => {
   const existingArticles = await Article.paginate(querParams, {
     limit: limit || 2,
     page: page || 1,
+    sort: { createdAt: -1 },
   });
 
   res.send(existingArticles);

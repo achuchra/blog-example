@@ -39,7 +39,7 @@ const articleSchema = new mongoose.Schema(
         delete ret.__v;
       },
     },
-  },
+  }
 );
 
 articleSchema.plugin(paginate);
@@ -52,10 +52,13 @@ articleSchema.statics.build = (attrs: ArticleAttr): ArticleDoc => {
   });
 };
 
-articleSchema.pre('save', function (done) {
+articleSchema.pre('save', function(done) {
   this.set('lastModifiedAt', new Date());
 
   done();
 });
 
-export const Article = mongoose.model<ArticleDoc, ArticleModel>('Article', articleSchema);
+export const Article = mongoose.model<ArticleDoc, ArticleModel>(
+  'Article',
+  articleSchema
+);
