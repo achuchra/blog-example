@@ -4,8 +4,20 @@ import { app } from './app';
 import { Settings } from './config';
 
 const startUp = async () => {
-  if (!Settings.MONGO_URI) {
-    throw new Error('mongo_uri must be definied');
+  if (process.env.NODE_ENV === 'production') {
+    if (!process.env.MONGO_URI) {
+      throw new Error('mongo_uri must be definied');
+    }
+    if (!process.env.JWT_KEY) {
+      throw new Error('jwt_key must be definied');
+    }
+  } else {
+    if (!Settings.MONGO_URI) {
+      throw new Error('mongo_uri must be definied');
+    }
+    if (!Settings.JWT_KEY) {
+      throw new Error('jwt_key must be definied');
+    }
   }
 
   try {

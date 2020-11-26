@@ -24,6 +24,11 @@ app.use(currentUser);
 app.use(UserRouter);
 app.use(ArticleRouter);
 app.use(express.static(path.resolve(__dirname, '../public')));
+app.use(express.static(path.resolve(__dirname, '../client/build')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../client/build/index.html'));
+});
 
 app.all('*', async () => {
   throw new NotFoundError();
