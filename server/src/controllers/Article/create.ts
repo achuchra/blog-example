@@ -10,7 +10,8 @@ export const createArticle = async (req: Request, res: Response) => {
     description,
     shortDescription,
     icon,
-    author: req.currentUser!.id,
+    author: req.currentUser!.nick,
+    authorId: req.currentUser!.id,
   });
 
   // save article

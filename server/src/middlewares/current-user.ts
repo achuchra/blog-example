@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import { Settings } from '../config';
 
 interface UserPayload {
+  nick: string;
   id: string;
   username: string;
 }

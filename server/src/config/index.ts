@@ -7,8 +7,6 @@ interface Config {
 }
 let Settings: Config = Conf;
 
-console.log('process', process);
-
 if (process.env.NODE_ENV === 'production') {
   Settings = ProdConfig;
 }

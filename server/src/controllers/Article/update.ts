@@ -14,7 +14,7 @@ export const updatedArticle = async (req: Request, res: Response) => {
   const user = await User.findById(req.currentUser!.id);
 
   if (!user!.isAdmin) {
-    query.author = mongoose.Types.ObjectId(req.currentUser!.id);
+    query.authorId = mongoose.Types.ObjectId(req.currentUser!.id);
   }
 
   // Find existing article

@@ -3,6 +3,7 @@ import paginate from 'mongoose-paginate-v2';
 
 export interface ArticleAttr {
   author: string;
+  authorId: string;
   title: string;
   description?: string;
   shortDescription?: string;
@@ -22,7 +23,8 @@ const articleSchema = new mongoose.Schema(
   {
     createdAt: Date,
     lastModifiedAt: Date,
-    author: mongoose.Schema.Types.ObjectId,
+    author: String,
+    authorId: String,
     title: String,
     description: String,
     shortDescription: String,
@@ -52,13 +54,10 @@ articleSchema.statics.build = (attrs: ArticleAttr): ArticleDoc => {
   });
 };
 
-articleSchema.pre('save', function(done) {
+articleSchema.pre('save', function (done) {
   this.set('lastModifiedAt', new Date());
 
   done();
 });
 
-export const Article = mongoose.model<ArticleDoc, ArticleModel>(
-  'Article',
-  articleSchema
-);
+export const Article = mongoose.model<ArticleDoc, ArticleModel>('Article', articleSchema);

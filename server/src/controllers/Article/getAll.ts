@@ -28,7 +28,7 @@ export const getAll = async (req: Request, res: Response) => {
 
   // If i want to display my collection
   if (req.query.author === 'me' && req.currentUser) {
-    querParams.author = mongoose.Types.ObjectId(req.currentUser.id);
+    querParams.authorId = mongoose.Types.ObjectId(req.currentUser.id);
   }
 
   if (search) {
@@ -36,7 +36,7 @@ export const getAll = async (req: Request, res: Response) => {
   }
 
   const existingArticles = await Article.paginate(querParams, {
-    limit: limit || 2,
+    limit: limit || 10,
     page: page || 1,
     sort: { createdAt: -1 },
   });

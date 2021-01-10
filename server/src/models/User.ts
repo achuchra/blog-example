@@ -3,6 +3,7 @@ import { Password } from '../helpers/Password';
 
 interface UserAttr {
   username: string;
+  nick: string;
   password: string;
   email: string;
   avatar: string;
@@ -19,6 +20,10 @@ interface UserModel extends mongoose.Model<UserDoc> {
 const userSchema = new mongoose.Schema(
   {
     username: {
+      type: String,
+      required: true,
+    },
+    nick: {
       type: String,
       required: true,
     },
@@ -43,14 +48,14 @@ const userSchema = new mongoose.Schema(
         delete ret.__v;
       },
     },
-  },
+  }
 );
 
 userSchema.statics.build = (attrs: UserAttr) => {
   return new User(attrs);
 };
 
-userSchema.pre('save', async function (done) {
+userSchema.pre('save', async function(done) {
   if (this.isModified('password')) {
     const hashed = await Password.toHash(this.get('password'));
     this.set('password', hashed);

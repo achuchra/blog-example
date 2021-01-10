@@ -17,8 +17,6 @@ export const deleteArticle = async (req: Request, res: Response) => {
     query.author = mongoose.Types.ObjectId(req.currentUser!.id);
   }
 
-  console.log(query);
-
   // Find existing article
   const existingArticle = await Article.findOne(query);
 
